@@ -1,6 +1,10 @@
+# encoding: utf-8
 
 require "to_ascii/version"
-require "iconv"
+
+if RUBY_VERSION < "1.9"
+  require "iconv"
+end
 
 class String
   def to_ascii
@@ -41,7 +45,11 @@ class String
     str.gsub!(/ù|ú|û/, "u")
     str.gsub!(/Ù|Ú|Û/, "U")
 
-    return Iconv.conv("ascii//ignore", "utf-8", str)
+    if RUBY_VERSION < "1.9"
+      return Iconv.conv("ascii//ignore", "utf-8", str)
+    else
+      str.encode Encoding::ASCII, :invalid => :replace, :undef => :replace, :replace => ""
+    end
   end
 end
 
