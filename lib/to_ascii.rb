@@ -44,6 +44,10 @@ class String
     str.gsub!(/Ò|Ó|Ô|Õ/, "O")
     str.gsub!(/ù|ú|û/, "u")
     str.gsub!(/Ù|Ú|Û/, "U")
+    str.gsub!(/Ð/, "Dh")
+    str.gsub!(/ð/, "dh")
+    str.gsub!(/Þ/, "Th")
+    str.gsub!(/þ/, "th")
 
     if RUBY_VERSION < "1.9"
       return Iconv.conv("ascii//ignore", "utf-8", str)

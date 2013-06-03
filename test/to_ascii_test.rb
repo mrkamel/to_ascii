@@ -33,8 +33,10 @@ class ToAsciiTest < Test::Unit::TestCase
     assert_equal "OOOO", "ÒÓÔÕ".to_ascii
     assert_equal "uuu", "ùúû".to_ascii
     assert_equal "UUU", "ÙÚÛ".to_ascii
-
-    assert_equal "", "Þ".to_ascii
+    assert_equal "Dh", "Ð".to_ascii
+    assert_equal "dh", "ð".to_ascii
+    assert_equal "Th", "Þ".to_ascii
+    assert_equal "th", "þ".to_ascii
   end
 end
 
