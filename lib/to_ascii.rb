@@ -48,6 +48,7 @@ class String
     str.gsub!(/ð/, "dh")
     str.gsub!(/Þ/, "Th")
     str.gsub!(/þ/, "th")
+    str.gsub!(/’/, "'")
 
     if RUBY_VERSION < "1.9"
       return Iconv.conv("ascii//ignore", "utf-8", str)
