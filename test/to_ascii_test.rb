@@ -1,10 +1,10 @@
 # encoding: utf-8
 
-require "test/unit"
+require "minitest/autorun"
 
-require File.expand_path("..//../lib/to_ascii", __FILE__)
+require File.expand_path("../../lib/to_ascii", __FILE__)
 
-class ToAsciiTest < Test::Unit::TestCase
+class ToAsciiTest < MiniTest::Unit::TestCase
   def test_to_ascii
     assert_equal "ae", "ä".to_ascii
     assert_equal "Ae", "Ä".to_ascii
@@ -37,6 +37,9 @@ class ToAsciiTest < Test::Unit::TestCase
     assert_equal "dh", "ð".to_ascii
     assert_equal "Th", "Þ".to_ascii
     assert_equal "th", "þ".to_ascii
+
+    assert_equal "½¿¶", "½¿¶".to_ascii(force: false)
+    assert_equal "", "½¿¶".to_ascii
   end
 end
 

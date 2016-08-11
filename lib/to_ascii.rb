@@ -2,16 +2,8 @@
 
 require "to_ascii/version"
 
-if RUBY_VERSION < "1.9"
-  require "iconv"
-end
-
 class String
-  def to_ascii
-    # we would like to use Iconv.iconv("us-ascii//translit", "utf-8", self).to_s only,
-    # but unfortunately it does not work in production for unknown reasons
-    # therefore, we have to convert as much as possible manually
-
+  def to_ascii(force: true)
     str = String.new(self)
 
     str.gsub!(/ä|æ/, "ae")
@@ -48,11 +40,7 @@ class String
     str.gsub!(/þ/, "th")
     str.gsub!(/’/, "'")
 
-    if RUBY_VERSION < "1.9"
-      return Iconv.conv("ascii//ignore", "utf-8", str)
-    else
-      str.encode Encoding::ASCII, :invalid => :replace, :undef => :replace, :replace => ""
-    end
+    force ? str.encode(Encoding::ASCII, :invalid => :replace, :undef => :replace, :replace => "") : str
   end
 end
 
