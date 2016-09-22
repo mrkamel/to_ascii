@@ -2,45 +2,56 @@
 
 require "to_ascii/version"
 
+module ToAscii
+  MAPPING = {
+    "ä" => "ae", "æ" => "ae",
+    "Ä" => "Ae", "Æ" => "Ae",
+    "ü" => "ue",
+    "Ü" => "Ue",
+    "ö" => "oe",
+    "Ö" => "Oe",
+    "ß" => "ss",
+    "ÿ" => "y", "ý" => "y",
+    "Ÿ" => "Y", "Ý" => "Y",
+    "ž" => "z",
+    "Ž" => "Z",
+    "š" => "s",
+    "Š" => "S",
+    "à" => "a", "á" => "a", "â" => "a", "ã" => "a",
+    "À" => "A", "Á" => "A", "Â" => "A", "Ã" => "A",
+    "ç" => "c",
+    "Ç" => "C",
+    "è" => "e", "é" => "e", "ê" => "e", "ë" => "e", "ẽ" => "e",
+    "È" => "E", "É" => "E", "Ê" => "E", "Ë" => "E", "Ẽ" => "E",
+    "ì" => "i", "í" => "i", "î" => "i", "ï" => "i",
+    "Ì" => "I", "Í" => "I", "Î" => "I", "Ï" => "I",
+    "ñ" => "n",
+    "Ñ" => "N",
+    "ò" => "o", "ó" => "o", "ô" => "o", "õ" => "o",
+    "Ò" => "O", "Ó" => "O", "Ô" => "O", "Õ" => "O",
+    "ù" => "u", "ú" => "u", "û" => "u", "ũ" => "u",
+    "Ù" => "U", "Ú" => "U", "Û" => "U", "Ũ" => "U",
+    "Ð" => "Dh",
+    "ð" => "dh",
+    "Þ" => "Th",
+    "þ" => "th",
+    "’" => "'"
+  }
+end
+
 class String
-  def to_ascii(force: true)
-    str = String.new(self)
+  def to_ascii
+    res = ""
 
-    str.gsub!(/ä|æ/, "ae")
-    str.gsub!(/Ä|Æ/, "Ae")
-    str.gsub!(/ü/, "ue")
-    str.gsub!(/Ü/, "Ue")
-    str.gsub!(/ö/, "oe")
-    str.gsub!(/Ö/, "Oe")
-    str.gsub!(/ß/, "ss")
+    chars.each do |char|
+      if mapping = ToAscii::MAPPING[char]
+        res << ToAscii::MAPPING[char]
+      elsif char.bytesize == 1
+        res << char
+      end
+    end
 
-    str.gsub!(/ÿ|ý/, "y")
-    str.gsub!(/Ÿ|Ý/, "Y")
-    str.gsub!(/ž/, "z")
-    str.gsub!(/Ž/, "Z")
-    str.gsub!(/š/, "s")
-    str.gsub!(/Š/, "S")
-    str.gsub!(/à|á|â|ã/, "a")
-    str.gsub!(/À|Á|Â|Ã/, "A")
-    str.gsub!(/ç/, "c")
-    str.gsub!(/Ç/, "C")
-    str.gsub!(/è|é|ê|ë|ẽ/, "e")
-    str.gsub!(/È|É|Ê|Ë|Ẽ/, "E")
-    str.gsub!(/ì|í|î|ï/, "i")
-    str.gsub!(/Ì|Í|Î|Ï/, "I")
-    str.gsub!(/ñ/, "n")
-    str.gsub!(/Ñ/, "N")
-    str.gsub!(/ò|ó|ô|õ/, "o")
-    str.gsub!(/Ò|Ó|Ô|Õ/, "O")
-    str.gsub!(/ù|ú|û|ũ/, "u")
-    str.gsub!(/Ù|Ú|Û|Ũ/, "U")
-    str.gsub!(/Ð/, "Dh")
-    str.gsub!(/ð/, "dh")
-    str.gsub!(/Þ/, "Th")
-    str.gsub!(/þ/, "th")
-    str.gsub!(/’/, "'")
-
-    force ? str.encode(Encoding::ASCII, :invalid => :replace, :undef => :replace, :replace => "") : str
+    res
   end
 end
 

@@ -37,8 +37,6 @@ class ToAsciiTest < MiniTest::Unit::TestCase
     assert_equal "dh", "ð".to_ascii
     assert_equal "Th", "Þ".to_ascii
     assert_equal "th", "þ".to_ascii
-
-    assert_equal "½¿¶", "½¿¶".to_ascii(force: false)
     assert_equal "", "½¿¶".to_ascii
   end
 end
